@@ -8,17 +8,21 @@ namespace xOrfe.Utilities
 
         public static T Instance
         {
-            get
+            get => return instance;
+            protected set => instance = value;
+        }
+        private void OnEnable()
+        {
+            if (_instance == null)
             {
-                if (instance == null)
-                {
-                    instance = FindObjectOfType(typeof(T)) as T;
-                }
-                return instance;
+                _instance = (T)this;
             }
-            protected set
+        }
+        private void OnDisable()
+        {
+            if (_instance == this)
             {
-                instance = value;
+                _instance = null;
             }
         }
     }
